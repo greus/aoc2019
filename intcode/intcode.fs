@@ -4,9 +4,6 @@ let replaceAt index newVal (list:System.Collections.Generic.List<int>) =
     list.[index] <- newVal
     list
 
-// let valAt index (list:System.Collections.Generic.List<int>) =
-//     list.[index]
-
 let op1 v1 v2 si (list:System.Collections.Generic.List<int>) =
     list |> replaceAt list.[si] (v1 + v2)
 
@@ -49,36 +46,6 @@ let rec operate index input (list:System.Collections.Generic.List<int>) =
     | (7, imp1, imp2) -> list |> op7 (value (index+1) imp1) (value (index+2) imp2) (index+3) |> nextOperateAfterThreeParams
     | (8, imp1, imp2) -> list |> op8 (value (index+1) imp1) (value (index+2) imp2) (index+3) |> nextOperateAfterThreeParams
     | (_, _, _) -> input
-
-        // match list.[index] with
-        // | 1 -> list |> op1 (valAt list.[(index+1)] list) (valAt list.[(index+2)] list) (index+3) |> nextOperateAfterThreeParams
-        // | 101 -> list |> op1 list.[(index+1)] (valAt list.[(index+2)] list) (index+3) |> nextOperateAfterThreeParams
-        // | 1001 -> list |> op1 (valAt list.[(index+1)] list) list.[(index+2)] (index+3) |> nextOperateAfterThreeParams
-        // | 1101 -> list |> op1 list.[(index+1)] list.[(index+2)] (index+3) |> nextOperateAfterThreeParams
-        // | 2 -> list |> op2 (valAt list.[(index+1)] list) (valAt list.[(index+2)] list) (index+3) |> nextOperateAfterThreeParams
-        // | 102 -> list |> op2 list.[(index+1)] (valAt list.[(index+2)] list) (index+3) |> nextOperateAfterThreeParams
-        // | 1002 -> list |> op2 (valAt list.[(index+1)] list) list.[(index+2)] (index+3) |> nextOperateAfterThreeParams
-        // | 1102 -> list |> op2 list.[(index+1)] list.[(index+2)] (index+3) |> nextOperateAfterThreeParams
-        // | 3 -> list |> op3 (index+1) input |> operate (index + 2) 0
-        // | 4 -> list |> operate (index + 2) (valAt list.[(index+1)] list)
-        // | 104 -> list |> operate (index + 2) list.[(index+1)]
-        // | 5 -> list |> if (valAt list.[(index+1)] list) <> 0 then operate (valAt list.[(index+2)] list) 0  else operate (index+3) 0
-        // | 105 -> list |> if list.[(index+1)] <> 0 then operate (valAt list.[(index+2)] list) 0  else operate (index+3) 0
-        // | 1005 -> list |> if (valAt list.[(index+1)] list) <> 0 then operate list.[(index+2)] 0  else operate (index+3) 0
-        // | 1105 -> list |> if list.[(index+1)] <> 0 then operate list.[(index+2)] 0  else operate (index+3) 0
-        // | 6 -> list |> if (valAt list.[(index+1)] list) = 0 then operate (valAt list.[(index+2)] list) 0  else operate (index+3) 0
-        // | 106 -> list |> if list.[(index+1)] = 0 then operate (valAt list.[(index+2)] list) 0  else operate (index+3) 0
-        // | 1006 -> list |> if (valAt list.[(index+1)] list) = 0 then operate list.[(index+2)] 0  else operate (index+3) 0
-        // | 1106 -> list |> if list.[(index+1)] = 0 then operate list.[(index+2)] 0  else operate (index+3) 0
-        // | 7 -> list |> op7 (valAt list.[(index+1)] list) (valAt list.[(index+2)] list) (index+3) |> nextOperateAfterThreeParams
-        // | 107 -> list |> op7 list.[(index+1)] (valAt list.[(index+2)] list) (index+3) |> nextOperateAfterThreeParams
-        // | 1007 -> list |> op7 (valAt list.[(index+1)] list) list.[(index+2)] (index+3) |> nextOperateAfterThreeParams
-        // | 1107 -> list |> op7 list.[(index+1)] list.[(index+2)] (index+3) |> nextOperateAfterThreeParams
-        // | 8 -> list |> op8 (valAt list.[(index+1)] list) (valAt list.[(index+2)] list) (index+3) |> nextOperateAfterThreeParams
-        // | 108 -> list |> op8 list.[(index+1)] (valAt list.[(index+2)] list) (index+3) |> nextOperateAfterThreeParams
-        // | 1008 -> list |> op8 (valAt list.[(index+1)] list) list.[(index+2)] (index+3) |> nextOperateAfterThreeParams
-        // | 1108 -> list |> op8 list.[(index+1)] list.[(index+2)] (index+3) |> nextOperateAfterThreeParams
-        // | _ -> input
 
 let intcode52 input (mutableList:System.Collections.Generic.List<int>) =
     mutableList |> operate 0 input
