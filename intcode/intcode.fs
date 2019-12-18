@@ -46,7 +46,7 @@ let rec operate (rb:int) (index:int) (input:int64) (list:int64 array) =
     | (1, imp1, imp2, imp3) -> list |> op1 (value (index+1) imp1) (value (index+2) imp2) (posIndex (index+3) imp3) |> nextOperateAfterThreeParams
     | (2, imp1, imp2, imp3) -> list |> op2 (value (index+1) imp1) (value (index+2) imp2) (posIndex (index+3) imp3) |> nextOperateAfterThreeParams
     | (3, imp1, _, _) -> list |> op3 (posIndex (index+1) imp1) input |> operate rb (index+2) input
-    | (4, imp1, _, _) -> value (index+1) imp1
+    | (4, imp1, _, _) -> (value (index+1) imp1, 4, (index+2))
     | (5, imp1, imp2, _) -> list |> if (value (index+1) imp1) <> zero then operate rb (value (index+2) imp2 |> int) input else nextOperateAfterTwoParams
     | (6, imp1, imp2, _) -> list |> if (value (index+1) imp1) = zero then operate rb (value (index+2) imp2 |> int) input else nextOperateAfterTwoParams
     | (7, imp1, imp2, imp3) -> list |> op7 (value (index+1) imp1) (value (index+2) imp2) (posIndex (index+3) imp3) |> nextOperateAfterThreeParams
@@ -54,7 +54,7 @@ let rec operate (rb:int) (index:int) (input:int64) (list:int64 array) =
     | (9, imp1, _, _) ->
         let rbChange = value (index+1) imp1 |> int
         list |> operate (rb+rbChange) (index+2) input
-    | (_, _, _, _) -> input
+    | (c, _, _, _) -> (input, c, -1)
 
 let intcode52 input (mutableList:int64 array) =
     mutableList |> operate 0 0 input
@@ -80,13 +80,13 @@ let test52 () =
     readText "input5"
     |> toMutableInts
     |> intcode52 5L
-    |> printfn "Expected: 2808771, Actual: %d"
+    |> printfn "Expected: 2808771, Actual: %A"
 
 let testInt64 () =
     "104,1125899906842624,99"
     |> toMutableInts
     |> operate 0 0 0L
-    |> printfn "Expected: 1125899906842624, Actual: %d"
+    |> printfn "Expected: 1125899906842624, Actual: %A"
 
 let test91 () =
     let max = 2147483647 / 100000
@@ -94,7 +94,7 @@ let test91 () =
     readText "input9"
     |> toFatMutableInts max
     |> operate 0 0 1L
-    |> printfn "Expected: 2204990589, Actual: %d"
+    |> printfn "Expected: 2204990589, Actual: %A"
 
 let test92 () =
     let max = 2147483647 / 100000
@@ -102,4 +102,4 @@ let test92 () =
     readText "input9"
     |> toFatMutableInts max
     |> operate 0 0 2L
-    |> printfn "Expected: 50008, Actual: %d"
+    |> printfn "Expected: 50008, Actual: %A"
